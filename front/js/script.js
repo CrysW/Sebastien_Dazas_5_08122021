@@ -45,7 +45,7 @@ function insererProduits(resultatsAPI) {
 
     // AJOUT DES BALISES, CLASSES ET ATTRIBUT DANS LE DOM
     items.appendChild(baliseA); // Ajout de la balise <a></a> à la balise parente <section></section> dans le DOM
-    baliseA.href = resultatsAPI[i]._id; // Ajout de l'attribut 'href' à la balise <a></a> dans le DOM
+    baliseA.href = `product.html?id=${resultatsAPI[i]._id}`; // Ajout de l'attribut 'href' à la balise <a></a> dans le DOM et création du lien entre un produit de la page d'accueil et la page produit
 
     baliseA.appendChild(baliseArticle); // Ajout de la balise <article></article> à la balise parente <a></a> dans le DOM
 
