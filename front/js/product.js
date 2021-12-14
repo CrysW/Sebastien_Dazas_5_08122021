@@ -5,6 +5,7 @@ let resultatsAPI = "";
 // MAIN
 recupererId();
 requeterApi(idRecupere);
+ajouterAuPanier();
 
 // FONCTION(S)
 
@@ -82,4 +83,89 @@ function insererDetailProduit(resultatsAPI) {
       `La couleur disponible à l'indice ${i} est ${couleurDisponible[i]}`
     ); // Affichage du résultat dans la console
   }
+}
+
+/**
+ * Fonction qui permet d'ajouter l'article sélectionné dans le panier
+ */
+function ajouterAuPanier() {
+  let ajouterAuPanier = document.querySelector("#addToCart"); // Selection du noeud
+  ajouterAuPanier.addEventListener("click", function () {
+    console.log("Vous avez cliquer sur 'Ajouter au panier'"); // Affichage du résultat dans la console
+
+    // RECUPERER LA COULEUR
+    let choixCouleur = document.querySelector("#colors"); // Selection du noeud
+    console.log("La couleur sélectionnée est : " + choixCouleur.value);
+    if (!choixCouleur.value) {
+      alert("Merci de sélectionner une couleur dans la liste déroulante"); // Affichage d'un message d'erreur à l'écran
+      return;
+    }
+
+    // RECUPERER LA QUANTITE
+    let choixQuantite = document.querySelector("#quantity"); // Selection du noeud
+    console.log("La quantité sélectionnée est : " + choixQuantite.value);
+    if (choixQuantite.value == 0 || choixQuantite.value > 100) {
+      alert("Merci de sélectionner une quantité entre 1 et 100"); // Affichage d'un message d'erreur à l'écran
+      return;
+    }
+
+    // RECUPERER LES CARACTERISTIQUES DE L'ARTICLE
+    let article = {
+      id: resultatsAPI._id,
+      nom: resultatsAPI.name,
+      couleur: choixCouleur.value,
+      quantite: choixQuantite.value,
+      prix: resultatsAPI.price,
+      description: resultatsAPI.description,
+      image: resultatsAPI.imageUrl,
+      texte: resultatsAPI.altTxt,
+    };
+    console.log(article);
+
+    // AJOUTER LES ARTICLES DANS LE LOCAL STORAGE
+    let articleLocalStorage = localStorage.getItem("produit");
+    console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => OBJET
+    if (articleLocalStorage == null) {
+      console.log("Le panier ne contient rien"); // Affiche ce message dans la console
+      articleLocalStorage = []; // Créer un tableau vide
+      console.log(articleLocalStorage); // Affiche le résultat dans la console
+      articleLocalStorage.push(article); // Ajoute l'article dans le tableau précédement créé
+      console.log(articleLocalStorage); // Affiche le résultat dans la console
+      console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => Objet
+      localStorage.setItem("produit", JSON.stringify(articleLocalStorage)); // Sauvegarde l'article dans le local storage et transforme "articleLocalStorage" qui est un "Objet" en "String"
+    } else {
+      console.log("Le panier contient déja quelquechose"); // Affiche ce message dans la console
+      console.log(articleLocalStorage); // Affichage du résultat
+      console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => String
+      articleLocalStorage = JSON.parse(articleLocalStorage); // Transforme "articleLocalStorage" qui est une "String" en "Objet"
+      console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => Objet
+      console.log(articleLocalStorage); // Affiche le résultat dans la console
+
+      let trouveIndex = articleLocalStorage.findIndex(
+        (canape) =>
+          canape.id === article.id && canape.couleur === article.couleur
+      ); // Recherche de l'index de l'article dans le tableau "articleLocalstorage"
+      console.log(trouveIndex); // Affiche le résultat dans la console
+      if (trouveIndex !== -1) {
+        // true => index trouvé
+        articleLocalStorage[trouveIndex].quantite =
+          parseInt(articleLocalStorage[trouveIndex].quantite) +
+          parseInt(choixQuantite.value); // Calcul de la nouvelle quantité
+        articleLocalStorage.push(article); // Ajoute l'article dans le tableau
+        articleLocalStorage.pop(); // Supprime le dernier article
+        console.log(articleLocalStorage); // Affiche le résultat dans la console
+        console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => Objet
+        localStorage.setItem("produit", JSON.stringify(articleLocalStorage)); // Sauvegarde l'article dans le local storage et transforme "articleLocalStorage" qui est un "Objet" en "String"
+      } else {
+        // false => index non trouvé
+        articleLocalStorage.push(article); // Ajoute l'article dans le tableau
+        console.log(articleLocalStorage); // Affiche le résultat dans la console
+        console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => Objet
+        localStorage.setItem("produit", JSON.stringify(articleLocalStorage)); // Sauvegarde l'article dans le local storage et transforme "articleLocalStorage" qui est un "Objet" en "String"
+      }
+    }
+
+    // AFFICHAGE DU LOCAL STORAGE
+    console.log(articleLocalStorage); // Affiche le résultat dans la console
+  });
 }
