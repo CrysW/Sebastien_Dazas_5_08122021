@@ -39,7 +39,7 @@ function insererProduits(resultatsAPI) {
     // CREATION DES DIFFERENTES BALISES
     let baliseA = document.createElement("a"); // Création de la balise <a></a>
     let baliseArticle = document.createElement("article"); // Création de la balise <article></article>
-    let baliseImg = document.createElement("img"); // Création de la balise <img></img>
+    let baliseImg = document.createElement("img"); // Création de la balise </img>
     let baliseH3 = document.createElement("h3"); // Création de la balise <h3></h3>
     let baliseP = document.createElement("p"); // Création de la balise <p></p>
 
