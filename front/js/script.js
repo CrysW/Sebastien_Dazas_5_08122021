@@ -28,7 +28,7 @@ function requeterApi() {
 }
 
 /**
- * Fonction qui permet d'insérer un produit dans la page d'accueil
+ * Fonction qui permet d'insérer les produits dans la page d'accueil
  * @param {*} resultatsAPI sont les données récupérées lors du fetch
  */
 function insererProduits(resultatsAPI) {

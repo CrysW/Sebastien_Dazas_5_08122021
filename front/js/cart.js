@@ -8,6 +8,8 @@ modifierQuantiteArticles(recuperation);
 supprimerArticles();
 totalArticles();
 totalPanier();
+formulaire();
+commander();
 
 // FONCTION(S)
 
@@ -207,4 +209,201 @@ function totalPanier() {
 
   // AJOUT DES BALISES, CLASSES ET ATTRIBUT DANS LE DOM
   total.textContent = montantPanier; // Ajout du nombre total d'article dans la balise <span></span> dans le DOM
+}
+
+/**
+ * Fonction qui permet de gérer le formulaire
+ */
+function formulaire() {
+  let formulaire = document.querySelector(".cart__order__form"); // Selection du nom
+  console.log(formulaire); // Affichage du résultat dans la console
+  // ZONE PRENOM DU FORMULAIRE
+  formulaire.firstName.addEventListener("change", function () {
+    validationPrenom(this); // 'this' = 'formulaire.prenom'
+  });
+  // ZONE NOM DU FORMULAIRE
+  formulaire.lastName.addEventListener("change", function () {
+    validationNom(this); // 'this' = 'formulaire.prenom'
+  });
+  // ZONE ADRESSE DU FORMULAIRE
+  formulaire.address.addEventListener("change", function () {
+    validationAdresse(this); // 'this' = 'formulaire.adresse'
+  });
+  // ZONE VILLE DU FORMULAIRE
+  formulaire.city.addEventListener("change", function () {
+    validationVille(this); // 'this' = 'city.adresse'
+  });
+  // ZONE EMAIL DU FORMULAIRE
+  formulaire.email.addEventListener("change", function () {
+    validationEmail(this); // 'this' = 'email.adresse'
+  });
+}
+
+/**
+ * Fonction qui permet de valider la saisie du prénom saisie par l'utilisateur
+ * @param {} saisiePrenom est le prénom saisie par l'utilisateur
+ */
+function validationPrenom(saisiePrenom) {
+  // Création de l'expression régulière pour la validation du prénom
+  let prenomRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$", "g");
+
+  // Test de l'expression régulière
+  let testPrenom = prenomRegExp.test(saisiePrenom.value); // Déclaration de la variable et initialisation de la variable avec en paramètre la saisie de l'utilisateur
+  console.log(testPrenom); // Affichage du résultat dans la console => true ou false
+
+  if (testPrenom) {
+    console.log("Saisie correct"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#firstNameErrorMsg"); // Selection du noeud
+    messageErreur.textContent = ""; // Ajout du message dans la balise <p></p> dans le DOM
+  } else {
+    console.log("Saisie incorrect"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#firstNameErrorMsg"); // Selection du noeud
+    messageErreur.textContent =
+      "Le prénom ne doit contenir ni chiffres ni caractères spéciaux"; // Ajout du message dans la balise <p></p> dans le DOM
+  }
+}
+
+/**
+ * Fonction qui permet de valider la saisie du nom saisie par l'utilisateur
+ * @param {} saisieNom est le nom saisie par l'utilisateur
+ */
+function validationNom(saisieNom) {
+  // Création de l'expression régulière pour la validation du nom
+  let NomRegExp = new RegExp("^[a-zA-ZZàâäéèêëïîôöùûüÿç-]+$", "g");
+
+  // Test de l'expression régulière
+  let testNom = NomRegExp.test(saisieNom.value); // Déclaration de la variable et initialisation de la variable avec en paramètre la saisie de l'utilisateur
+  console.log(testNom); // Affichage du résultat dans la console => true ou false
+
+  if (testNom) {
+    console.log("Saisie correct"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#lastNameErrorMsg"); // Selection du noeud
+    messageErreur.textContent = ""; // Ajout du message dans la balise <p></p> dans le DOM
+  } else {
+    console.log("Saisie incorrect"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#lastNameErrorMsg"); // Selection du noeud
+    messageErreur.textContent =
+      "Le nom ne doit contenir ni chiffres ni caractères spéciaux"; // Ajout du message dans la balise <p></p> dans le DOM
+  }
+}
+
+/**
+ * Fonction qui permet de valider la saisie de l'adresse saisie par l'utilisateur
+ * @param {} saisieAdresse est l'adresse saisie par l'utilisateur
+ */
+function validationAdresse(saisieAdresse) {
+  // Création de l'expression régulière pour la validation de l'adresse
+  let AdresseRegExp = new RegExp(
+    "[0-9]{1,4}[ ,-][ a-zA-Zàâäéèêëïîôöùûüÿç-]+$",
+    "g"
+  );
+
+  // Test de l'expression régulière
+  let testAdresse = AdresseRegExp.test(saisieAdresse.value); // Déclaration de la variable et initialisation de la variable avec en paramètre la saisie de l'utilisateur
+  console.log(testAdresse); // Affichage du résultat dans la console => true ou false
+
+  if (testAdresse) {
+    console.log("Saisie correct"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#addressErrorMsg"); // Selection du noeud
+    messageErreur.textContent = ""; // Ajout du message dans la balise <p></p> dans le DOM
+  } else {
+    console.log("Saisie incorrect"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#addressErrorMsg"); // Selection du noeud
+    messageErreur.textContent =
+      "Veuillez saisir le numéro suivi du nom de la voie"; // Ajout du message dans la balise <p></p> dans le DOM
+  }
+}
+
+/**
+ * Fonction qui permet de valider la saisie de la ville saisie par l'utilisateur
+ * @param {} saisieVille est le code postal et la ville saisie par l'utilisateur
+ */
+function validationVille(saisieVille) {
+  // Création de l'expression régulière pour la validation de la ville
+  let VilleRegExp = new RegExp(
+    "[0-9]{1,5}[ ,-][ a-zA-Zàâäéèêëïîôöùûüÿç-]+$",
+    "g"
+  );
+
+  // Test de l'expression régulière
+  let testVille = VilleRegExp.test(saisieVille.value); // Déclaration de la variable et initialisation de la variable avec en paramètre la saisie de l'utilisateur
+  console.log(testVille); // Affichage du résultat dans la console => true ou false
+
+  if (testVille) {
+    console.log("Saisie correct"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#cityErrorMsg"); // Selection du noeud
+    messageErreur.textContent = ""; // Ajout du message dans la balise <p></p> dans le DOM
+  } else {
+    console.log("Saisie incorrect"); // Affichage du résultat dans la console
+    let messageErreur = document.querySelector("#cityErrorMsg"); // Selection du noeud
+    messageErreur.textContent =
+      "Veuillez saisir le code postal suivi du nom de la ville"; // Ajout du message dans la balise <p></p> dans le DOM
+  }
+}
+
+/**
+ * Fonction qui permet de valider la saisie de l'email saisie par l'utilisateur
+ * @param {} saisieEmail est l'email saisie par l'utilisateur
+ */
+function validationEmail(saisieEmail) {
+  // Création de l'expression réguliére pour la validation de l'email
+  let emailRegExp = new RegExp(
+    "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
+    "g"
+  );
+
+  // Test de de l'expression réguliére
+  let testEmail = emailRegExp.test(saisieEmail.value); // Déclaration de la variable et initialisation de la variable avec en paramètre la saisie de l'utilisateur
+  console.log(testEmail); // Affichage du résultat dans la console
+
+  if (testEmail === true) {
+    console.log("Saisie correct");
+    let messageErreur = document.querySelector("#emailErrorMsg"); // Selection du noeud
+    messageErreur.textContent = ""; // Ajout du message dans la balise <p></p> dans le DOM
+  } else {
+    console.log("Saisie incorrect");
+    let messageErreur = document.querySelector("#emailErrorMsg"); // Selection du noeud
+    messageErreur.textContent = "L'adresse email n'est pas valide"; // Ajout du message dans la balise <p></p> dans le DOM
+  }
+}
+
+/**
+ * Fonction qui permet de passer la commande
+ */
+function commander() {
+  let commander = document.querySelector("#order"); // Selection du noeud
+  console.log(commander); // Affichage du résultat dans la console
+  commander.addEventListener("click", function (e) {
+    e.preventDefault(); // Annule la soumission des données
+
+    // Récupération des coordonnées du client
+    let prenom = document.querySelector("#firstName"); // Selection du noeud
+    console.log(prenom.value); // Affichage du résultat dans la console
+    let nom = document.querySelector("#lastName"); // Selection du noeud
+    console.log(nom.value); // Affichage du résultat dans la console
+    let adresse = document.querySelector("#address"); // Selection du noeud
+    console.log(adresse.value); // Affichage du résultat dans la console
+    let ville = document.querySelector("#city"); // Selection du noeud
+    console.log(ville.value); // Affichage du résultat dans la console
+    let email = document.querySelector("#email"); // Selection du noeud
+    console.log(email.value); // Affichage du résultat dans la console
+
+    // Création d'un objet "coordonneesClient" contenant toutes les coordonnées du client saisies dans le formulaire
+    let coordonneesClient = {
+      firstName: prenom.value,
+      lastName: nom.value,
+      address: adresse.value,
+      city: ville.value,
+      email: email.value,
+    };
+    console.log(coordonneesClient); // Affichage du résultat dans la console
+
+    // Création de d'un objet "identifiantsProduits" contenant tous les identifiants des produits dans le panier
+    let identifiantsProduits = [];
+    for (let i = 0; i < recuperation.length; i = i + 1) {
+      console.log(recuperation[i].id); // Affichage du résultat dans la console
+      identifiantsProduits.push(recuperation[i].id); // Ajout de l'identifiant dans le tableau
+    }
+    console.log(identifiantsProduits); // Affichage du résultat dans la console
+  });
 }
