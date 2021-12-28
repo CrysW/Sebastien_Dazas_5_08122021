@@ -1,5 +1,5 @@
 // VARIABLE(S)
-let recuperation = localStorage.getItem("produit");
+let recuperation = localStorage.getItem("produit"); // Récupére ce qu'il y a dans le local storage avec la clé 'produit'
 
 // MAIN
 recupererDonneesLocalStorage();
@@ -219,23 +219,23 @@ function formulaire() {
   console.log(formulaire); // Affichage du résultat dans la console
   // ZONE PRENOM DU FORMULAIRE
   formulaire.firstName.addEventListener("change", function () {
-    validationPrenom(this); // 'this' = 'formulaire.prenom'
+    validationPrenom(this); // 'this' = 'formulaire.firstname'
   });
   // ZONE NOM DU FORMULAIRE
   formulaire.lastName.addEventListener("change", function () {
-    validationNom(this); // 'this' = 'formulaire.prenom'
+    validationNom(this); // 'this' = 'formulaire.lastName'
   });
   // ZONE ADRESSE DU FORMULAIRE
   formulaire.address.addEventListener("change", function () {
-    validationAdresse(this); // 'this' = 'formulaire.adresse'
+    validationAdresse(this); // 'this' = 'formulaire.address'
   });
   // ZONE VILLE DU FORMULAIRE
   formulaire.city.addEventListener("change", function () {
-    validationVille(this); // 'this' = 'city.adresse'
+    validationVille(this); // 'this' = 'formulaire.city'
   });
   // ZONE EMAIL DU FORMULAIRE
   formulaire.email.addEventListener("change", function () {
-    validationEmail(this); // 'this' = 'email.adresse'
+    validationEmail(this); // 'this' = 'formulaire.email'
   });
 }
 
@@ -405,5 +405,45 @@ function commander() {
       identifiantsProduits.push(recuperation[i].id); // Ajout de l'identifiant dans le tableau
     }
     console.log(identifiantsProduits); // Affichage du résultat dans la console
+
+    // Envoie vers le serveur
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contact: coordonneesClient,
+        products: identifiantsProduits,
+      }),
+    })
+      .then(function (reponse) {
+        if (reponse.ok) {
+          return reponse.json(); // Retour de la réponse au format json
+        }
+      })
+      .then(function (donnees) {
+        console.log(donnees); // Affichage du résultat dans la console
+        console.log(donnees.orderId); // Affichage du 'orderId' dans la console => numéro de commande
+
+        // AJOUT DU NUMERO DE COMMANDE DANS LE LOCAL STORAGE
+        let numeroLocalStorage = localStorage.getItem("numero"); // Récupére ce qu'il y a dans le local storage avec la clé 'numero'
+        console.log(numeroLocalStorage); // Affichage du résultat dans la console
+        console.log(typeof numeroLocalStorage); // Affichage du résultat du type dans la console
+        numeroLocalStorage = []; // Créer un tableau vide
+        console.log(numeroLocalStorage); // Affiche le résultat dans la console
+        numeroLocalStorage.push(donnees.orderId); // Ajoute le numéro de commande dans le tableau précédement créé
+        console.log(numeroLocalStorage); // Affichage du résultat dans la console
+        console.log(typeof numeroLocalStorage); // Affichage du résultat du type dans la console
+        localStorage.setItem("numero", JSON.stringify(numeroLocalStorage)); // Sauvegarde le numéro dans le local storage et transforme "numeroLocalStorage" qui est un "Objet" en "String"
+
+        document.location.href = "confirmation.html"; // Redirection vers la page 'confirmation.html'
+      })
+      .catch(function (erreur) {
+        console.log("Message d'erreur : \n" + erreur); // Affichage du message d'erreur dans la console
+        alert(
+          "Oups... Votre commande n'a pu aboutir, veuillez réessayer plus tard"
+        ); // Affichage d'un message d'erreur à l'écran
+      });
   });
 }

@@ -123,7 +123,7 @@ function ajouterAuPanier() {
     console.log(article);
 
     // AJOUTER LES ARTICLES DANS LE LOCAL STORAGE
-    let articleLocalStorage = localStorage.getItem("produit");
+    let articleLocalStorage = localStorage.getItem("produit"); // Récupére ce qu'il y a dans le local storage avec la clé 'produit'
     console.log(typeof articleLocalStorage); // Affiche le résultat du type dans la console => OBJET
     if (articleLocalStorage == null) {
       console.log("Le panier ne contient rien"); // Affiche ce message dans la console
