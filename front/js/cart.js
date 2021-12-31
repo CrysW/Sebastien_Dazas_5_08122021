@@ -425,19 +425,8 @@ function commander() {
       .then(function (donnees) {
         console.log(donnees); // Affichage du résultat dans la console
         console.log(donnees.orderId); // Affichage du 'orderId' dans la console => numéro de commande
-
-        // AJOUT DU NUMERO DE COMMANDE DANS LE LOCAL STORAGE
-        let numeroLocalStorage = localStorage.getItem("numero"); // Récupére ce qu'il y a dans le local storage avec la clé 'numero'
-        console.log(numeroLocalStorage); // Affichage du résultat dans la console
-        console.log(typeof numeroLocalStorage); // Affichage du résultat du type dans la console
-        numeroLocalStorage = []; // Créer un tableau vide
-        console.log(numeroLocalStorage); // Affiche le résultat dans la console
-        numeroLocalStorage.push(donnees.orderId); // Ajoute le numéro de commande dans le tableau précédement créé
-        console.log(numeroLocalStorage); // Affichage du résultat dans la console
-        console.log(typeof numeroLocalStorage); // Affichage du résultat du type dans la console
-        localStorage.setItem("numero", JSON.stringify(numeroLocalStorage)); // Sauvegarde le numéro dans le local storage et transforme "numeroLocalStorage" qui est un "Objet" en "String"
-
-        document.location.href = "confirmation.html"; // Redirection vers la page 'confirmation.html'
+        document.location.href =
+          "confirmation.html?id_commande=" + donnees.orderId; // Redirection vers la page 'confirmation.html'
       })
       .catch(function (erreur) {
         console.log("Message d'erreur : \n" + erreur); // Affichage du message d'erreur dans la console
